@@ -2,6 +2,8 @@ package gr.majestic.reservations.controller;
 
 
 import gr.majestic.reservations.model.Room;
+import gr.majestic.reservations.service.GeneralService;
+import gr.majestic.reservations.service.RoomService;
 import gr.majestic.reservations.service.RoomService;
 import gr.majestic.reservations.service.RoomServiceImpl;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,28 +29,28 @@ public class RoomController {
     @PostMapping("/create")
     public Room createRoom(@RequestBody Room room) {
         // save data
-        return roomService.createRoom(room);
+        return roomService.create(room);
     }
 
     @GetMapping()
     public List<Room> readRoom() {
-        return roomService.readRoom();
+        return roomService.read();
     }
 
     @GetMapping("/{roomId}")
     public Room getRoom(@PathVariable int roomId) {
-        return roomService.readRoom(roomId);
+        return roomService.read(roomId);
     }
 
     // Room updateRoom(int roomId, Room newRoomValues);
     @PutMapping("/{roomId}")
     public Room updateRoom(@PathVariable int roomId, @RequestBody Room newRoom) {
-        return roomService.updateRoom(roomId, newRoom);
+        return roomService.update(roomId, newRoom);
     }
 
     //    boolean deleteRoom(int roomId);
     @DeleteMapping("/{roomId}")
     public boolean deleteRoom(@PathVariable int roomId) {
-        return roomService.deleteRoom(roomId);
+        return roomService.delete(roomId);
     }
 }

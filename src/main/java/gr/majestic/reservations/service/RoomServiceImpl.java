@@ -10,36 +10,37 @@ public class RoomServiceImpl implements RoomService {
     private List<Room> rooms = new ArrayList<>();
 
     @Override
-    public Room createRoom(Room room) {
+    public Room create(Room room) {
         rooms.add(room);
         room.setId(rooms.size() - 1);
         return room;
     }
 
     @Override
-    public List<Room> readRoom() {
+    public List<Room> read() {
         return rooms;
     }
 
     @Override
-    public Room readRoom(int roomId) {
+    public Room read(Integer roomId) {
         return rooms.get(roomId);
     }
 
     @Override
-    public Room updateRoom(int roomId, Room newRoom) {
-        Room currentRoom = readRoom(roomId);
+    public Room update(Integer roomId, Room newRoom) {
+        Room currentRoom = read(roomId);
         newRoom.setId(currentRoom.getId());
         rooms.set(newRoom.getId(), newRoom);
         return newRoom;
     }
 
     @Override
-    public boolean deleteRoom(int roomId) {
+    public boolean delete(Integer roomId) {
         if (roomId >= rooms.size() || rooms.get(roomId) == null) {
             return false;
         }
         rooms.set(roomId, null);
         return true;
     }
+
 }
