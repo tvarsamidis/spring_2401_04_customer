@@ -1,46 +1,57 @@
 package gr.majestic.reservations.service;
 
 import gr.majestic.reservations.model.Room;
+import gr.majestic.reservations.repository.RoomRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@AllArgsConstructor
+@Service
 public class RoomServiceImpl implements RoomService {
 
-    private List<Room> rooms = new ArrayList<>();
+    private final RoomRepository roomRepository;
 
     @Override
     public Room create(Room room) {
-        rooms.add(room);
-        room.setId(rooms.size() - 1);
-        return room;
-    }
-
-    @Override
-    public List<Room> read() {
-        return rooms;
-    }
-
-    @Override
-    public Room read(Integer roomId) {
-        return rooms.get(roomId);
-    }
-
-    @Override
-    public Room update(Integer roomId, Room newRoom) {
-        Room currentRoom = read(roomId);
-        newRoom.setId(currentRoom.getId());
-        rooms.set(newRoom.getId(), newRoom);
+        // room.setId(12345);
+        Room newRoom = roomRepository.save(room);
+        // System.out.println(room.getId());
         return newRoom;
     }
 
     @Override
-    public boolean delete(Integer roomId) {
-        if (roomId >= rooms.size() || rooms.get(roomId) == null) {
-            return false;
+    public List<Room> read() {
+        return roomRepository.findAll();
+    }
+
+    @Override
+    public Room read(Long roomId) {
+        return roomRepository.findById(roomId).get();
+    }
+
+    @Override
+    public Room update(Long roomId, Room newRoom) {
+        Room currentRoom = read(roomId);
+        if (currentRoom == null) {
+            return null;
         }
-        rooms.set(roomId, null);
-        return true;
+        newRoom.setId(currentRoom.getId()); //
+        Room updatedRoom = roomRepository.save(newRoom);
+        return updatedRoom;
+    }
+
+    @Override
+    public Room delete(Long roomId) {
+        Room room = read(roomId);
+        if (room == null) {
+            return null;
+        }
+        roomRepository.delete(room);
+        return room;
     }
 
 }

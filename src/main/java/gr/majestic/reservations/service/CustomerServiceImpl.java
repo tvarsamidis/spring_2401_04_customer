@@ -1,6 +1,6 @@
 package gr.majestic.reservations.service;
 
-import gr.majestic.reservations.exception.EntityException;
+import gr.majestic.reservations.exception.NoCustomerUpdateException;
 import gr.majestic.reservations.model.Customer;
 import gr.majestic.reservations.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
@@ -35,25 +35,22 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer update(Long customerId, Customer newCustomer) {
         Optional<Customer> customer = customerRepository.findById(customerId);
-        if (customer.isPresent()) {
-            Customer currentCustomer = customer.get();
-            newCustomer.setId(currentCustomer.getId());
-            customerRepository.save(newCustomer);
-            return newCustomer;
-            // with Optional, return Optional.of(newCustomer)
+        if (customer.isEmpty()) {
+            return null;
         }
-        // with Optional, return Optional.empty();
-        throw new EntityException("Cannot update customer with id " + customerId);
+        Customer currentCustomer = customer.get();
+        newCustomer.setId(currentCustomer.getId());
+        return customerRepository.save(newCustomer);
     }
 
     @Override
-    public boolean delete(Long customerId) {
+    public Customer delete(Long customerId) {
         Optional<Customer> customer = customerRepository.findById(customerId);
-        if (customer.isPresent()) {
-            customerRepository.delete(customer.get());
-            return true;
+        if (customer.isEmpty()) {
+            return null;
         }
-        return false;
+        customerRepository.delete(customer.get());
+        return customer.get();
     }
 
 

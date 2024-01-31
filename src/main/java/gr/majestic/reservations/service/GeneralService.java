@@ -1,7 +1,5 @@
 package gr.majestic.reservations.service;
 
-import gr.majestic.reservations.model.Room;
-
 import java.util.List;
 
 public interface GeneralService<T, K> {
@@ -9,5 +7,5 @@ public interface GeneralService<T, K> {
     List<T> read();
     T read(K modelId);
     T update(K modelId, T newModel);
-    boolean delete(K modelId);
+    T delete(K modelId);
 }
