@@ -11,7 +11,8 @@ import lombok.Data;
 public class Room {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String number;
+    private String name;
     private int floorNumber;
-    private int bedCount;
+    private int guestCount;
+    private double price;
 }

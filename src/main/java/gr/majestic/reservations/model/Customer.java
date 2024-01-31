@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -16,5 +17,5 @@ public class Customer implements Serializable {
     private long id;
     private String name;
     private String email;
-    private Date registrationDate;
+    private LocalDate registrationDate;
 }
