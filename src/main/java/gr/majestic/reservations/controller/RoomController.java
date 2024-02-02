@@ -1,6 +1,7 @@
 package gr.majestic.reservations.controller;
 
 
+import gr.majestic.reservations.model.Booking;
 import gr.majestic.reservations.model.Room;
 import gr.majestic.reservations.service.GeneralService;
 import gr.majestic.reservations.service.RoomService;
@@ -55,4 +56,5 @@ public class RoomController {
     public Room deleteRoom(@PathVariable long roomId) {
         return roomService.delete(roomId);
     }
+
 }
