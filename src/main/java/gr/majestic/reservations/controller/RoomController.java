@@ -57,4 +57,10 @@ public class RoomController {
         return roomService.delete(roomId);
     }
 
+    @GetMapping("/guests/{guestCount}")
+    public List<Room> findAllRoomsForGuestCount(@PathVariable int guestCount) {
+        return roomService.findAllRoomsForGuestCount(guestCount);
+    }
+
+
 }

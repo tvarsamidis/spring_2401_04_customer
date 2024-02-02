@@ -59,4 +59,9 @@ public class RoomServiceImpl implements RoomService {
         return room;
     }
 
+
+    @Override
+    public List<Room> findAllRoomsForGuestCount(int guestCount) {
+        return roomRepository.findByGuestCountGreaterThanEqual(guestCount);
+    }
 }

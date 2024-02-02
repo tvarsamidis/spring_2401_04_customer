@@ -6,4 +6,5 @@ import gr.majestic.reservations.model.Room;
 import java.util.List;
 
 public interface RoomService extends GeneralService<Room, Long> {
+    List<Room> findAllRoomsForGuestCount(int guestCount);
 }
