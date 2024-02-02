@@ -33,6 +33,10 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findById(roomId).get();
     }
 
+
+    // JPA operations:   Optional.isPresent, Optional.isEmpty, Exception
+    //                   result != null,      result == null,   Exception
+
     @Override
     public Room update(Long roomId, Room newRoom) {
         Room currentRoom = read(roomId);
