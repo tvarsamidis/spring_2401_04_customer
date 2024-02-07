@@ -1,5 +1,6 @@
 package gr.majestic.reservations.controller;
 
+import gr.majestic.reservations.dto.CustomerDto;
 import gr.majestic.reservations.model.Customer;
 import gr.majestic.reservations.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -30,8 +31,8 @@ public class CustomerController {
     }
 
     @GetMapping()
-    public List<Customer> readCustomer() {
-        return customerService.read();
+    public List<CustomerDto> readCustomer() {
+        return customerService.readCustomerDto();
     }
 
     @GetMapping("/{customerId}")

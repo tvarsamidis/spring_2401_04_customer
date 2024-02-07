@@ -1,5 +1,7 @@
 package gr.majestic.reservations.service;
 
+import gr.majestic.reservations.configuration.CustomerMapper;
+import gr.majestic.reservations.dto.CustomerDto;
 import gr.majestic.reservations.exception.NoCustomerUpdateException;
 import gr.majestic.reservations.model.Customer;
 import gr.majestic.reservations.repository.CustomerRepository;
@@ -8,12 +10,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
 
     @Override
     public Customer create(final Customer customer) {
@@ -54,4 +58,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
+    @Override
+    public List<CustomerDto> readCustomerDto() {
+        return read()
+                .stream()
+                .map(customer -> customerMapper.customerMappingCustomerDto(customer))
+                .collect(Collectors.toList());
+    }
 }

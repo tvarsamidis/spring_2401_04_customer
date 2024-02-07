@@ -1,6 +1,7 @@
 package gr.majestic.reservations.controller;
 
 import gr.majestic.reservations.dto.BookingDto;
+import gr.majestic.reservations.dto.ResponseApi;
 import gr.majestic.reservations.model.Booking;
 import gr.majestic.reservations.service.BookingService;
 import lombok.AllArgsConstructor;
@@ -24,9 +25,8 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping("/create")
-    public Booking createBooking(@RequestBody BookingDto bookingDto) {
-        Booking savedBooking = bookingService.createBookingDto(bookingDto);
-        return savedBooking;
+    public ResponseApi<Booking> createBooking(@RequestBody BookingDto bookingDto) {
+        return bookingService.createBookingDto(bookingDto);
     }
 
 
@@ -39,5 +39,8 @@ public class BookingController {
     public Booking updateBooking(@PathVariable long bookingId, @RequestBody BookingDto bookingDto) {
         return bookingService.updateBookingDto(bookingId, bookingDto);
     }
-
+    @GetMapping("{customerId}") // this is just a test name, it will change next
+    public List<Booking> findByCustomer(@PathVariable long customerId) {
+        return bookingService.findAllBookingsForCustomer(customerId);
+    }
 }

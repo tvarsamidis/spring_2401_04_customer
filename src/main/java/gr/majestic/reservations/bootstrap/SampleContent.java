@@ -1,6 +1,7 @@
 package gr.majestic.reservations.bootstrap;
 
 
+import gr.majestic.reservations.configuration.CustomerMapper;
 import gr.majestic.reservations.dto.BookingDto;
 import gr.majestic.reservations.model.Booking;
 import gr.majestic.reservations.model.Customer;
@@ -25,7 +26,7 @@ public class SampleContent implements CommandLineRunner {
     private final GeneralService<Room, Long> roomService;
     private final GeneralService<Customer, Long> customerService;
     private final BookingService bookingService;
-
+    private final CustomerMapper customerMapper;
     @Override
     public void run(String... args) {
         Customer customer1 = createCustomer("John Smith", "john.smith@johnsmith.com", "2024-01-13");
@@ -35,19 +36,36 @@ public class SampleContent implements CommandLineRunner {
         Room room2 = createRoom("A103", "88.00", 3, 1);
         Room room3 = createRoom("Junior Suite", "250.00", 6, 1);
 
-        Booking booking1 = createBookingDto(customer1, room1, "2024-02-21", "2024-02-25");
-        Booking booking2 = createBookingDto(customer2, room3, "2024-02-27", "2024-03-11");
-        Booking booking3 = createBookingDto(customer2, room2, "2024-02-27", "2024-03-11");
+
+        bookingService.createBookingDto(
+                customerMapper.bookingMappingBookingDto(Booking.builder()
+                        .customer(customer1)
+                        .room(room1)
+                        .checkInDate(LocalDate.parse("2024-02-21"))
+                        .checkOutDate(LocalDate.parse("2024-02-22"))
+                        .build())
+        );
+
+        bookingService.createBookingDto(
+                customerMapper.bookingMappingBookingDto(Booking.builder()
+                        .customer(customer2)
+                        .room(room1)
+                        .checkInDate(LocalDate.parse("2024-01-31"))
+                        .checkOutDate(LocalDate.parse("2024-02-01"))
+                        .build())
+        );
+
+        bookingService.createBookingDto(
+                customerMapper.bookingMappingBookingDto(Booking.builder()
+                        .customer(customer2)
+                        .room(room2)
+                        .checkInDate(LocalDate.parse("2024-01-31"))
+                        .checkOutDate(LocalDate.parse("2024-02-01"))
+                        .build())
+        );
+
     }
 
-    private Booking createBookingDto(Customer customer, Room room, String checkInDate, String checkOutDate) {
-        BookingDto bookingDto = new BookingDto();
-        bookingDto.setCustomerId(customer.getId());
-        bookingDto.setRoomId(room.getId());
-        bookingDto.setCheckInDate(LocalDate.parse(checkInDate));
-        bookingDto.setCheckOutDate(LocalDate.parse(checkOutDate));
-        return bookingService.createBookingDto(bookingDto);
-    }
 
     private Room createRoom(String name, String price, int guestCount, int floorNumber) {
         Room room = new Room();
