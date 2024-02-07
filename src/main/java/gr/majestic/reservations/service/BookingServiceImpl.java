@@ -8,6 +8,7 @@ import gr.majestic.reservations.model.Room;
 import gr.majestic.reservations.repository.BookingRepository;
 import gr.majestic.reservations.repository.CustomerRepository;
 import gr.majestic.reservations.repository.RoomRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
+
     public Booking createBookingDto(BookingDto bookingDto) {
         Customer customer = customerRepository.findById(bookingDto.getCustomerId()).get();
         Room room = roomRepository.findById(bookingDto.getRoomId()).get();
