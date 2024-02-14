@@ -11,7 +11,9 @@ import gr.majestic.reservations.repository.CustomerRepository;
 import gr.majestic.reservations.repository.RoomRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +21,21 @@ import java.util.List;
 
 @Service
 @Primary
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final CustomerRepository customerRepository;
     private final RoomRepository roomRepository;
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public Booking create(Booking booking) {
+
+        logger.info("--------------------Booking create has started");
+        logger.trace("-----------------Tracing booking");
+        logger.warn("-----------------Warning in booking");
+
         return bookingRepository.save(booking);
     }
 
@@ -70,7 +78,7 @@ public class BookingServiceImpl implements BookingService {
                     .customer(customer)
                     .room(room)
                     .checkInDate(bookingDto.checkInDate())
-                   // .checkOutDate(bookingDto.getCheckOutDate())
+                    .checkOutDate(bookingDto.checkOutDate())
                     .build();
             Booking storedBooking = create(booking);
             return new ResponseApi<>(storedBooking, 0, "");

@@ -1,8 +1,7 @@
 package gr.majestic.reservations.service;
 
-import gr.majestic.reservations.configuration.CustomerMapper;
+import gr.majestic.reservations.configuration.HotelMapper;
 import gr.majestic.reservations.dto.CustomerDto;
-import gr.majestic.reservations.exception.NoCustomerUpdateException;
 import gr.majestic.reservations.model.Customer;
 import gr.majestic.reservations.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final CustomerMapper customerMapper;
+    private final HotelMapper hotelMapper;
 
     @Override
     public Customer create(final Customer customer) {
@@ -62,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDto> readCustomerDto() {
         return read()
                 .stream()
-                .map(customer -> customerMapper.customerMappingCustomerDto(customer))
+                .map(customer -> hotelMapper.customerMappingCustomerDto(customer))
                 .collect(Collectors.toList());
     }
 }

@@ -1,5 +1,6 @@
 package gr.majestic.reservations.controller;
 
+import gr.majestic.reservations.configuration.HotelMapper;
 import gr.majestic.reservations.dto.BookingDto;
 import gr.majestic.reservations.dto.ResponseApi;
 import gr.majestic.reservations.model.Booking;
@@ -24,9 +25,14 @@ public class BookingController {
 
     private final BookingService bookingService;
 
+    private final HotelMapper mapper;
     @PostMapping("/create")
-    public ResponseApi<Booking> createBooking(@RequestBody BookingDto bookingDto) {
-        return bookingService.createBookingDto(bookingDto);
+    public ResponseApi<BookingDto> createBooking(@RequestBody BookingDto bookingDto) {
+
+        Booking booking = bookingService.createBookingDto(bookingDto).getData();
+        ResponseApi<BookingDto> result =  new ResponseApi<>();
+        result.setData(mapper.bookingMappingBookingDto(booking));
+        return   result;
     }
 
 

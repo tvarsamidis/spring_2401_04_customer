@@ -1,24 +1,18 @@
 package gr.majestic.reservations.bootstrap;
 
 
-import gr.majestic.reservations.configuration.CustomerMapper;
-import gr.majestic.reservations.dto.BookingDto;
+import gr.majestic.reservations.configuration.HotelMapper;
 import gr.majestic.reservations.model.Booking;
 import gr.majestic.reservations.model.Customer;
 import gr.majestic.reservations.model.Room;
 import gr.majestic.reservations.service.BookingService;
-import gr.majestic.reservations.service.CustomerService;
 import gr.majestic.reservations.service.GeneralService;
-import gr.majestic.reservations.service.RoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.Month;
 
 @Component
 @AllArgsConstructor
@@ -26,7 +20,7 @@ public class SampleContent implements CommandLineRunner {
     private final GeneralService<Room, Long> roomService;
     private final GeneralService<Customer, Long> customerService;
     private final BookingService bookingService;
-    private final CustomerMapper customerMapper;
+    private final HotelMapper hotelMapper;
     @Override
     public void run(String... args) {
         Customer customer1 = createCustomer("John Smith", "john.smith@johnsmith.com", "2024-01-13");
@@ -38,7 +32,7 @@ public class SampleContent implements CommandLineRunner {
 
 
         bookingService.createBookingDto(
-                customerMapper.bookingMappingBookingDto(Booking.builder()
+                hotelMapper.bookingMappingBookingDto(Booking.builder()
                         .customer(customer1)
                         .room(room1)
                         .checkInDate(LocalDate.parse("2024-02-21"))
@@ -47,7 +41,7 @@ public class SampleContent implements CommandLineRunner {
         );
 
         bookingService.createBookingDto(
-                customerMapper.bookingMappingBookingDto(Booking.builder()
+                hotelMapper.bookingMappingBookingDto(Booking.builder()
                         .customer(customer2)
                         .room(room1)
                         .checkInDate(LocalDate.parse("2024-01-31"))
@@ -56,7 +50,7 @@ public class SampleContent implements CommandLineRunner {
         );
 
         bookingService.createBookingDto(
-                customerMapper.bookingMappingBookingDto(Booking.builder()
+                hotelMapper.bookingMappingBookingDto(Booking.builder()
                         .customer(customer2)
                         .room(room2)
                         .checkInDate(LocalDate.parse("2024-01-31"))

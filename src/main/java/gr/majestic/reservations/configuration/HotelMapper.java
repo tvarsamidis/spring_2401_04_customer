@@ -10,10 +10,8 @@ import gr.majestic.reservations.model.Room;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.time.LocalDate;
-
 @Mapper(componentModel = "spring")
-public interface CustomerMapper {
+public interface HotelMapper {
 
 
     CustomerDto customerMappingCustomerDto(Customer customer);
