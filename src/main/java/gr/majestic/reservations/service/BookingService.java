@@ -11,5 +11,8 @@ public interface BookingService extends GeneralService<Booking, Long> {
 
     Booking updateBookingDto(long bookingId, BookingDto bookingDto);
 
+    List<BookingDto> readBookingDto();
+
+
     List<Booking> findAllBookingsForCustomer(long customerId);
 }

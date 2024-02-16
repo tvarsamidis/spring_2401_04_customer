@@ -48,17 +48,15 @@
 
 	<Loggers>
 
-		<AsyncLogger name="gr.majestic.reservations.service" level="info" additivity="false">
+		<AsyncLogger name="gr.majestic.reservations.service.BookingServiceImpl" level="trace" additivity="false">
 			<AppenderRef ref="ConsoleAppender"/>
-			<AppenderRef ref="DataAppender"/>
+			<AppenderRef ref="DefaultAppender"/>
 		</AsyncLogger>
 
-		<AsyncLogger name="gr.majestic.reservations.service" level="warn" additivity="false">
+		<AsyncLogger name="gr.majestic.reservations.bootstrap.SampleContent" level="error" additivity="false">
 			<AppenderRef ref="ConsoleAppender"/>
-			<AppenderRef ref="DataAppender"/>
+			<AppenderRef ref="SqlAppender"/>
 		</AsyncLogger>
-
-
 
 		<Root level="info">
 			<AppenderRef ref="ConsoleAppender"/>

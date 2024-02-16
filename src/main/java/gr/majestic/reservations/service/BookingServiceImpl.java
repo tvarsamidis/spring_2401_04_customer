@@ -1,5 +1,6 @@
 package gr.majestic.reservations.service;
 
+import gr.majestic.reservations.configuration.HotelMapper;
 import gr.majestic.reservations.dto.BookingDto;
 import gr.majestic.reservations.dto.ResponseApi;
 import gr.majestic.reservations.exception.UpdateBookingException;
@@ -14,10 +15,12 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Primary
@@ -27,20 +30,25 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final CustomerRepository customerRepository;
     private final RoomRepository roomRepository;
+    private final HotelMapper mapper;
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public Booking create(Booking booking) {
+        boolean check = logger.isDebugEnabled();
 
-        logger.info("--------------------Booking create has started");
         logger.trace("-----------------Tracing booking");
+        logger.debug("-----------------Debug in booking");
+        logger.info("------------------Info--Booking create has started");
         logger.warn("-----------------Warning in booking");
+        logger.error("-----------------Error in booking");
 
         return bookingRepository.save(booking);
     }
 
     @Override
     public List<Booking> read() {
+        logger.info("The read method started");
         return bookingRepository.findAll();
     }
 
@@ -70,6 +78,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public ResponseApi<Booking> createBookingDto(BookingDto bookingDto) {
+        logger.info("The method createBookingDto started");
+        ResponseApi<Booking> result = new ResponseApi<>(null, 1, "");;
         try {
             Customer customer = customerRepository.findById(bookingDto.customerId()).get();
             Room room = roomRepository.findById(bookingDto.roomId()).get();
@@ -81,16 +91,38 @@ public class BookingServiceImpl implements BookingService {
                     .checkOutDate(bookingDto.checkOutDate())
                     .build();
             Booking storedBooking = create(booking);
-            return new ResponseApi<>(storedBooking, 0, "");
+            result = new ResponseApi<>(storedBooking, 0, "");
         }
         catch(Exception e){
-            return new ResponseApi<>(null, 1, e.getMessage());
+            result = new ResponseApi<>(null, 1, e.getMessage());
         }
+
+        logger.info("The method createBookingDto ended {}", result);
+       return result;
+
     }
 
     @Override
     public Booking updateBookingDto(long bookingId, BookingDto bookingDto) {
         return update(bookingId, null);
+    }
+
+
+
+    @Cacheable("CashBookings")
+    @Override
+    public List<BookingDto> readBookingDto() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return read()
+                .stream()
+                .map(booking -> mapper.bookingMappingBookingDto(booking))
+                .collect(Collectors.toList());
     }
 
     @Override

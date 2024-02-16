@@ -8,6 +8,8 @@ import gr.majestic.reservations.model.Room;
 import gr.majestic.reservations.service.BookingService;
 import gr.majestic.reservations.service.GeneralService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +23,16 @@ public class SampleContent implements CommandLineRunner {
     private final GeneralService<Customer, Long> customerService;
     private final BookingService bookingService;
     private final HotelMapper hotelMapper;
+
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
     @Override
     public void run(String... args) {
+        logger.trace("-----------------Tracing bootstrap");
+        logger.debug("-----------------Debug in bootstrap");
+        logger.info("------------------Info--bootstrap create has started");
+        logger.warn("-----------------Warning in bootstrap");
+        logger.error("-----------------Error in bootstrap");
+
         Customer customer1 = createCustomer("John Smith", "john.smith@johnsmith.com", "2024-01-13");
         Customer customer2 = createCustomer("Anne Gray", "anne.gray@annegray.com", "2023-11-17");
 
