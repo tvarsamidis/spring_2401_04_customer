@@ -6,6 +6,7 @@ import gr.majestic.reservations.dto.ResponseApi;
 import gr.majestic.reservations.model.Booking;
 import gr.majestic.reservations.service.BookingService;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
@@ -28,8 +29,6 @@ public class BookingController {
     private final HotelMapper mapper;
     @PostMapping("/create")
     public ResponseApi<BookingDto> createBooking(@RequestBody BookingDto bookingDto) {
-
-
         Booking booking = bookingService.createBookingDto(bookingDto).getData();
         ResponseApi<BookingDto> result =  new ResponseApi<>();
         result.setData(mapper.bookingMappingBookingDto(booking));
@@ -51,11 +50,20 @@ public class BookingController {
     }
 
     @PutMapping("/{bookingId}")
-    public Booking updateBooking(@PathVariable long bookingId, @RequestBody BookingDto bookingDto) {
+    public BookingDto updateBooking(@PathVariable long bookingId, @RequestBody BookingDto bookingDto) {
         return bookingService.updateBookingDto(bookingId, bookingDto);
     }
     @GetMapping("{customerId}") // this is just a test name, it will change next
-    public List<Booking> findByCustomer(@PathVariable long customerId) {
-        return bookingService.findAllBookingsForCustomer(customerId);
+    public ResponseApi<List<BookingDto>> findByCustomer(@PathVariable long customerId) {
+        long startTime = System.currentTimeMillis();
+        var resultData = bookingService.findAllBookingsForCustomer(customerId);
+
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime-startTime;
+
+        ResponseApi<List<BookingDto>> result = new
+                ResponseApi<List<BookingDto>>(resultData,0, "elapsed time "+ elapsedTime);
+        return result;
+
     }
 }

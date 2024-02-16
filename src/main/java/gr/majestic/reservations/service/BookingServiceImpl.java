@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,11 @@ public class BookingServiceImpl implements BookingService {
         return null;
     }
 
+    @Override
+    public Booking update(Long modelId, Booking newModel) {
+        return null;
+    }
+
     /**
      * This method throws an exception because you are not allowed to update a booking.
      *
@@ -66,7 +72,8 @@ public class BookingServiceImpl implements BookingService {
      * @throws gr.majestic.reservations.exception.UpdateBookingException always
      */
     @Override
-    public Booking update(Long modelId, Booking newModel) {
+    @CacheEvict(cacheNames={"CasheBookings", "cacheBooking"}, allEntries = true )
+    public BookingDto updateBookingDto(Long modelId, BookingDto newModel) {
         throw new UpdateBookingException("To change a booking, cancel and create a new one");
     }
 
@@ -77,6 +84,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
+    @CacheEvict(cacheNames={"CasheBookings"}, allEntries = true )
     public ResponseApi<Booking> createBookingDto(BookingDto bookingDto) {
         logger.info("The method createBookingDto started");
         ResponseApi<Booking> result = new ResponseApi<>(null, 1, "");;
@@ -94,6 +102,7 @@ public class BookingServiceImpl implements BookingService {
             result = new ResponseApi<>(storedBooking, 0, "");
         }
         catch(Exception e){
+            logger.error("The method createBookingDto ended { producing exception", result);
             result = new ResponseApi<>(null, 1, e.getMessage());
         }
 
@@ -102,14 +111,10 @@ public class BookingServiceImpl implements BookingService {
 
     }
 
-    @Override
-    public Booking updateBookingDto(long bookingId, BookingDto bookingDto) {
-        return update(bookingId, null);
-    }
 
 
 
-    @Cacheable("CashBookings")
+    @Cacheable("CasheBookings")
     @Override
     public List<BookingDto> readBookingDto() {
         try {
@@ -126,7 +131,20 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> findAllBookingsForCustomer(long customerId) {
-        return bookingRepository.getBookingByCustomerId(customerId);
+    @Cacheable(cacheNames="cacheBooking", key="#customerId" )
+    public List<BookingDto> findAllBookingsForCustomer(long customerId) {
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return bookingRepository.getBookingByCustomerId(customerId)
+                .stream()
+                //    .map(booking -> mapper.bookingMappingBookingDto((booking)))
+                .map(mapper::bookingMappingBookingDto)
+                .collect(Collectors.toList());
     }
 }

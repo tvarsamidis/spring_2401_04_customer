@@ -8,11 +8,9 @@ import java.util.List;
 
 public interface BookingService extends GeneralService<Booking, Long> {
     ResponseApi<Booking> createBookingDto(BookingDto bookingDto);
+    BookingDto updateBookingDto(Long modelId, BookingDto newModel);
 
-    Booking updateBookingDto(long bookingId, BookingDto bookingDto);
 
     List<BookingDto> readBookingDto();
-
-
-    List<Booking> findAllBookingsForCustomer(long customerId);
+    List<BookingDto> findAllBookingsForCustomer(long customerId);
 }

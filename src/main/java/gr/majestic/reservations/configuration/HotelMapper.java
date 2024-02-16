@@ -18,7 +18,9 @@ public interface HotelMapper {
 
     @Mapping (source="customer.id", target="customerId")
     @Mapping (source="room.id", target="roomId")
-    BookingDto bookingMappingBookingDto(Booking booking);
+    @Mapping (source="id", target="bookingId")
+    @Mapping (source="customer.name", target="customerName")
+      BookingDto bookingMappingBookingDto(Booking booking);
 
     RoomDto roomMappingRoomDto(Room room);
 }
