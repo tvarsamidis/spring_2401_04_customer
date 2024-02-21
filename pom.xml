@@ -127,7 +127,11 @@
         </dependency>
 
 
-
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <!-- This is optional if you want to support XML -->
+        </dependency>
 
     </dependencies>
 
