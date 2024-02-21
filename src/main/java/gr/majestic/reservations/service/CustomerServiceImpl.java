@@ -5,6 +5,8 @@ import gr.majestic.reservations.dto.CustomerDto;
 import gr.majestic.reservations.model.Customer;
 import gr.majestic.reservations.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,8 +60,17 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public List<CustomerDto> readCustomerDto() {
-        return read()
+    public List<CustomerDto> readCustomerDto(int pageCount, int pageSize, String  name, String email, String year) {
+
+        if(pageCount<0) pageCount = 1;
+        if(pageSize<1 || pageSize>50) pageSize = 20;
+
+        Pageable pageable = PageRequest.of(pageCount, pageSize);
+
+
+return customerRepository.findCustomersByNameEmailYear(name,email,year)
+
+   //     return customerRepository.findAll(pageable)
                 .stream()
                 .map(customer -> hotelMapper.customerMappingCustomerDto(customer))
                 .collect(Collectors.toList());

@@ -33,8 +33,17 @@ public class SampleContent implements CommandLineRunner {
         logger.warn("-----------------Warning in bootstrap");
         logger.error("-----------------Error in bootstrap");
 
+
         Customer customer1 = createCustomer("John Smith", "john.smith@johnsmith.com", "2024-01-13");
         Customer customer2 = createCustomer("Anne Gray", "anne.gray@annegray.com", "2023-11-17");
+
+     createCustomer("John Smith1", "john.smith@johnsmith.com", "2024-01-13");
+         createCustomer("Anne Gray1", "anne.gray@annegray.com", "2023-11-17");
+
+         createCustomer("John Smith2", "john.smith@johnsmith.com", "2024-01-13");
+          createCustomer("Anne Gray2", "anne.gray@annegray.com", "2023-11-17");
+
+
 
         Room room1 = createRoom("A101", "100.05", 4, 1);
         Room room2 = createRoom("A103", "88.00", 3, 1);

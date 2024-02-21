@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CustomerService extends GeneralService<Customer, Long>{
 
-   List<CustomerDto> readCustomerDto();
+   List<CustomerDto> readCustomerDto(int pageCount, int pageSize, String  name, String email, String year);
 }

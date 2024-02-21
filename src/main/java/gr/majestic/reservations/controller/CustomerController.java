@@ -30,8 +30,12 @@ public class CustomerController {
     }
 
     @GetMapping()
-    public List<CustomerDto> readCustomer() {
-        return customerService.readCustomerDto();
+    public List<CustomerDto> readCustomer(@RequestParam(name="pageCount", required = false ) Integer pageCount,
+                                          @RequestParam(name="pageSize", required = false )  Integer pageSize,
+                                          @RequestParam(name="name", required = false) String name,
+                                          @RequestParam(name="email", required = false)  String email,
+                                          @RequestParam(name="year", required = false)  String year)  {
+        return customerService.readCustomerDto(pageCount, pageSize, name, email, year);
     }
 
     @GetMapping("/js/{customerId}")

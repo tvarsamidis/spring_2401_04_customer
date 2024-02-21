@@ -1,0 +1,32 @@
+# https://docs.docker.com/compose/compose-file
+version: "3.9"
+
+services:
+  postgres-hotel:
+    image: postgres:alpine
+    restart: on-failure
+    env_file: docker/.env.postgres-hotel
+    volumes:
+      - ~/dbdata/postgresql/hotel:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres-network
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
+        window: 60s
+      resources:
+        limits:
+          cpus: '3'
+          memory: 2048M
+        reservations:
+          cpus: '1'
+          memory: 256M
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 3s
+      timeout: 2s
+      retries: 10
