@@ -11,12 +11,11 @@ import gr.majestic.reservations.repository.BookingRepository;
 import gr.majestic.reservations.repository.CustomerRepository;
 import gr.majestic.reservations.repository.RoomRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+
+
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +71,7 @@ public class BookingServiceImpl implements BookingService {
      * @throws gr.majestic.reservations.exception.UpdateBookingException always
      */
     @Override
-    @CacheEvict(cacheNames={"CasheBookings", "cacheBooking"}, allEntries = true )
+
     public BookingDto updateBookingDto(Long modelId, BookingDto newModel) {
         throw new UpdateBookingException("To change a booking, cancel and create a new one");
     }
@@ -84,7 +83,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames={"CasheBookings"}, allEntries = true )
+
     public ResponseApi<Booking> createBookingDto(BookingDto bookingDto) {
         logger.info("The method createBookingDto started");
         ResponseApi<Booking> result = new ResponseApi<>(null, 1, "");;
@@ -114,7 +113,7 @@ public class BookingServiceImpl implements BookingService {
 
 
 
-    @Cacheable("CasheBookings")
+
     @Override
     public List<BookingDto> readBookingDto() {
         try {
@@ -131,7 +130,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    @Cacheable(cacheNames="cacheBooking", key="#customerId" )
+
     public List<BookingDto> findAllBookingsForCustomer(long customerId) {
 
         try {

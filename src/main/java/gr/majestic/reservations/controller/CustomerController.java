@@ -39,7 +39,7 @@ public class CustomerController {
     }
 
     @GetMapping("/js/{customerId}")
-    public CustomerDto getCustomer(@PathVariable long customerId) {
+    public CustomerDto getCustomer(@PathVariable long customerId, @RequestHeader(name="Custom-Header", required = false) String customHeader) {
         return mapper.customerMappingCustomerDto(customerService.read(customerId));
     }
 

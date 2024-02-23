@@ -39,10 +39,10 @@ public class BookingController {
 
     @GetMapping("") // this is just a test name, it will change next
     public ResponseApi<List<BookingDto>> findAll() {
-        long startTime = System.currentTimeMillis();
+       long startTime = System.currentTimeMillis();
         var resultData = bookingService.readBookingDto();
-        long endTime = System.currentTimeMillis();
-        long elapsedTime = endTime-startTime;
+       long endTime = System.currentTimeMillis();
+         long elapsedTime =   endTime-startTime;
 
         ResponseApi<List<BookingDto>> result = new
                 ResponseApi<List<BookingDto>>(resultData,0, "elapsed time "+ elapsedTime);

@@ -60,8 +60,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public List<CustomerDto> readCustomerDto(int pageCount, int pageSize, String  name, String email, String year) {
-
+    public List<CustomerDto> readCustomerDto(Integer pageCount, Integer pageSize, String  name, String email, String year) {
+        if (pageCount==null) pageCount=0;
+        if (pageSize==null) pageSize=0;
         if(pageCount<0) pageCount = 1;
         if(pageSize<1 || pageSize>50) pageSize = 20;
 
