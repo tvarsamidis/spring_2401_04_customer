@@ -6,6 +6,7 @@ import gr.majestic.reservations.model.Customer;
 import gr.majestic.reservations.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,8 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/customer")
 @AllArgsConstructor
-
-
 public class CustomerController {
     
     private final CustomerService customerService;
@@ -23,8 +22,9 @@ public class CustomerController {
 
     private final HotelMapper mapper;
 
-    @PostMapping("/{version}/create")
-    public Customer createCustomer(@RequestBody Customer customer) {
+    @PostMapping("")
+    @Validated
+    public Customer createCustomer(@Validated @RequestBody Customer customer) {
         // save data
         return customerService.create(customer);
     }

@@ -5,6 +5,7 @@ import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 @Configuration
 public class MetricsConfig {
@@ -12,4 +13,11 @@ public class MetricsConfig {
     public MeterRegistry meterRegistry() {
         return new PrometheusMeterRegistry( PrometheusConfig.DEFAULT);
     }
+
+
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        return new MethodValidationPostProcessor();
+    }
+
 }

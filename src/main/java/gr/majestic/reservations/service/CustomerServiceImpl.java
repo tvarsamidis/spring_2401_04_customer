@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,8 @@ public class CustomerServiceImpl implements CustomerService {
     private final HotelMapper hotelMapper;
 
     @Override
-    public Customer create(final Customer customer) {
+    @Validated
+    public Customer create(@Validated final Customer customer) {
         customerRepository.save(customer);
         return customer;
     }

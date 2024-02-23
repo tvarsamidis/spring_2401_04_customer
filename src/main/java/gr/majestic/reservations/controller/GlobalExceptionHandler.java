@@ -14,4 +14,10 @@ public class GlobalExceptionHandler {
          return ResponseEntity.badRequest().body("Redis error: " + ex.getLocalizedMessage());
 
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
+        return ResponseEntity.badRequest().body("Validation error: " + ex.getFieldError().getDefaultMessage());
+    }
+
 }
