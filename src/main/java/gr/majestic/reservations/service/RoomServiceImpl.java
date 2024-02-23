@@ -17,7 +17,7 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
 
     @Override
-    public Room create(Room room) {
+    public Room create(Room room) throws Exception{
         // room.setId(12345);
         Room newRoom = roomRepository.save(room);
         // System.out.println(room.getId());

@@ -24,7 +24,7 @@ public class CustomerController {
 
     @PostMapping("")
     @Validated
-    public Customer createCustomer(@Validated @RequestBody Customer customer) {
+    public Customer createCustomer(@Validated @RequestBody Customer customer) throws Exception {
         // save data
         return customerService.create(customer);
     }

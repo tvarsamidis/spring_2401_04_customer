@@ -26,7 +26,7 @@ public class SampleContent implements CommandLineRunner {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
         logger.trace("-----------------Tracing bootstrap");
         logger.debug("-----------------Debug in bootstrap");
         logger.info("------------------Info--bootstrap create has started");
@@ -80,7 +80,7 @@ public class SampleContent implements CommandLineRunner {
     }
 
 
-    private Room createRoom(String name, String price, int guestCount, int floorNumber) {
+    private Room createRoom(String name, String price, int guestCount, int floorNumber) throws Exception {
         Room room = new Room();
         room.setName(name);
         room.setPrice(new BigDecimal(price));
@@ -89,7 +89,7 @@ public class SampleContent implements CommandLineRunner {
         return roomService.create(room);
     }
 
-    private Customer createCustomer(String name, String email, String registrationDate) {
+    private Customer createCustomer(String name, String email, String registrationDate) throws Exception {
         Customer customer = new Customer();
         customer.setName(name);
         customer.setEmail(email);

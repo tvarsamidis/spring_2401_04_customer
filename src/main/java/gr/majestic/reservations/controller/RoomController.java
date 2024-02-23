@@ -30,7 +30,7 @@ public class RoomController {
     // Create Read Update Delete
 
     @PostMapping("/create")
-    public Room createRoom(@RequestBody Room room) {
+    public Room createRoom(@RequestBody Room room) throws Exception {
         // save data
         return roomService.create(room);
     }

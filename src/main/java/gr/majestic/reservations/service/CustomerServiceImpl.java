@@ -4,11 +4,13 @@ import gr.majestic.reservations.configuration.HotelMapper;
 import gr.majestic.reservations.dto.CustomerDto;
 import gr.majestic.reservations.model.Customer;
 import gr.majestic.reservations.repository.CustomerRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,8 +24,11 @@ public class CustomerServiceImpl implements CustomerService {
     private final HotelMapper hotelMapper;
 
     @Override
-    @Validated
-    public Customer create(@Validated final Customer customer) {
+    @Valid
+    public Customer create(  Customer customer) throws  Exception{
+        if (customer==null || customer.getName()==null || customer.getName().equals("") )
+            throw new Exception();
+
         customerRepository.save(customer);
         return customer;
     }

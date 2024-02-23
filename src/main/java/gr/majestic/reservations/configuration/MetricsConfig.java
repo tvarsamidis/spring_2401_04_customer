@@ -15,9 +15,6 @@ public class MetricsConfig {
     }
 
 
-    @Bean
-    public MethodValidationPostProcessor methodValidationPostProcessor() {
-        return new MethodValidationPostProcessor();
-    }
+
 
 }

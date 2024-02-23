@@ -34,7 +34,7 @@ public class BookingServiceImpl implements BookingService {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public Booking create(Booking booking) {
+    public Booking create(Booking booking) throws Exception{
         boolean check = logger.isDebugEnabled();
 
         logger.trace("-----------------Tracing booking");
