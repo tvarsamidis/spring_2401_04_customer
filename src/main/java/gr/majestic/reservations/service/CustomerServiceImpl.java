@@ -2,6 +2,7 @@ package gr.majestic.reservations.service;
 
 import gr.majestic.reservations.configuration.HotelMapper;
 import gr.majestic.reservations.dto.CustomerDto;
+import gr.majestic.reservations.exception.CustomerCreatingException;
 import gr.majestic.reservations.model.Customer;
 import gr.majestic.reservations.repository.CustomerRepository;
 import jakarta.validation.Valid;
@@ -27,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Valid
     public Customer create(  Customer customer) throws  Exception{
         if (customer==null || customer.getName()==null || customer.getName().equals("") )
-            throw new Exception();
+            throw new CustomerCreatingException("no name for customer");
 
         customerRepository.save(customer);
         return customer;
